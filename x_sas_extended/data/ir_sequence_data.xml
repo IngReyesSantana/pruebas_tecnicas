@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="sequence_service_guide" model="ir.sequence">
+            <field name="name">Service Guide</field>
+            <field name="code">service.guide</field>
+            <field name="prefix">SG</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

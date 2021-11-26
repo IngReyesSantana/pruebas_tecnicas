@@ -1,0 +1,174 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_service_guide_search">
+            <field name="name">view.service.guide.search</field>
+            <field name="model">service.guide</field>
+            <field name="arch" type="xml">
+                <search string="Search Service Guide">
+                    <field name="user_id"/>
+                    <filter name="my_guides" string="My guides" domain="[('user_id', '=', uid)]"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_service_guide_tree">
+            <field name="name">view.service.guide.tree</field>
+            <field name="model">service.guide</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="category_id"/>
+                    <field name="guide_price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_service_guide_form">
+            <field name="name">view.service.guide.form</field>
+            <field name="model">service.guide</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form string="Service Guide">
+                    <header>
+                        <button string="Draft" type="object" name="action_draft" states="confirm, progress, cancel"/>
+                        <button string="Approved" type="object" name="action_approved" states="draft"
+                                class="oe_highlight"/>
+                        <button string="Complete" type="object" name="action_complete" states="approved"
+                                class="oe_highlight"/>
+                        <button string="Finished" type="object" name="action_done" states="complete"
+                                class="oe_highlight"/>
+                        <button string="Cancel" type="object" name="action_cancel"
+                                states="draft,approved,complete" groups="stock.group_stock_manager"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="partner_id"/>
+                            <field name="category_id" domain="[('active', '=', True)]"/>
+                        </group>
+                        <notebook>
+                            <page string="Products">
+                                <field name="service_guide_line_ids"
+                                       attrs="{'readonly': [('state', 'in', ('done','cancel'))]}">
+                                    <tree editable="bottom">
+                                        <field name="service_guide_id" invisible="True"/>
+                                        <field name="product_id" widget="many2one_barcode"
+                                               domain="[('type', '=', 'service')]"/>
+                                        <field name="product_amount"/>
+                                        <field name="discount"/>
+                                        <field name="price_total" sum="Total Amount"/>
+                                        <control>
+                                            <create name="add_product_control" string="Add a product"/>
+                                        </control>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                        <group>
+                            <table style="width: 35%; position: relative; left: 65%; border: hidden; border-bottom: solid 2px #0B1612;">
+                                <tr>
+                                    <td>
+                                        <strong>Guide Total:</strong>
+                                    </td>
+                                    <td>
+                                        <field name="guide_price"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </group>
+                        <br/>
+                        <group>
+                            <field name="description"/>
+                        </group>
+                        <div class="o_attachment_preview"/>
+                        <div class="oe_chatter">
+                            <field name="message_follower_ids" groups="base.group_user"/>
+                            <field name="activity_ids"/>
+                            <field name="message_ids"/>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_service_guide_kanban">
+            <field name="name">view.service.guide.kanban</field>
+            <field name="model">service.guide</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_small_column" group_delete="0" group_create="0"
+                        sample="1" default_group_by="state">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="state"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="row mb4">
+                                    <div class="col-6">
+                                        <strong>
+                                            <span>
+                                                <field name="name"/>
+                                            </span>
+                                        </strong>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <span>
+                                            <field name="partner_id"/>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <i class="fa fa-money" role="img" aria-label="Currency" title="Currency"/>
+                                        <field name="guide_price" widget='monetary'/>
+                                    </div>
+                                    <div class="col-6">
+                                        <span class="float-right">
+                                            <field name="category_id" widget="label_selection"/>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <span>
+                                            <field name="state" widget="label_selection"
+                                                   options="{'classes': {'approved': 'warning', 'complete': 'success', 'done':'secondary', 'cancel':'danger'}}"/>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_service_guide_pivot">
+            <field name="name">view.service.guide.pivot</field>
+            <field name="model">service.guide</field>
+            <field name="arch" type="xml">
+                <pivot string="Guide Analysis">
+                    <field name="partner_id"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record model='ir.actions.act_window' id="action_service_guide">
+            <field name="name">Service Guide</field>
+            <field name="res_model">service.guide</field>
+            <field name="view_mode">kanban,tree,form,pivot</field>
+            <field name="context">{'search_default_my_guides': 1}</field>
+        </record>
+
+        <menuitem name="Service Guide" id="service_guide_base_menu"/>
+
+        <menuitem name="Guides" id="service_guide_menu"
+                  parent="service_guide_base_menu"
+                  action="action_service_guide"
+                  sequence="3"/>
+    </data>
+</odoo>

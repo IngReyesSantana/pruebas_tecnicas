@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="report_service_guide" model="ir.actions.report">
+            <field name="name">Print Guide</field>
+            <field name="model">service.guide</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">x_sas_extended.template_service_guide</field>
+            <field name="report_file">x_sas_extended.template_service_guide</field>
+        </record>
+
+        <template id="template_service_guide">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <h2 style="text-align: center; color: #ff8a00">
+                                <span>Service Guide:</span>&#160;
+                                <span t-field="doc.name"/>
+                            </h2>
+                            <br/>
+                            <div>
+                                <table style="width: 100%;">
+                                    <tr>
+                                        <td style="text-align: center; background-color: #f2f2f2;" colspan="3">
+                                            <h3>
+                                                <strong>
+                                                    <i class="fa fa-user" aria-hidden="true"/>
+                                                    <span t-field="doc.partner_id.name"/>
+                                                </strong>
+                                            </h3>
+                                        </td>
+                                        <td style="text-align: left; background-color: #f2f2f2;" colspan="2">
+                                            <i class="fa fa-id-card-o" aria-hidden="true"/>
+                                            <span t-field="doc.partner_id.vat"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <br/>
+                            </div>
+                            <div>
+                                <table style="width: 100%; text-align: center;">
+                                    <tr>
+                                        <th style="width: 40%;">Product</th>
+                                        <th style="width: 20%;">Amount</th>
+                                        <th style="width: 20%;">Discount</th>
+                                        <th style="width: 20%;">Amount Total</th>
+                                    </tr>
+                                    <t t-foreach="doc.service_guide_line_ids" t-as="line">
+                                        <tr style="border-bottom: solid 1px #0000FF;">
+                                            <td>
+                                                <span t-field="line.product_id"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.product_amount"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.discount"/><span>&#160;%</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.price_total"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <tr>
+                                        <td/>
+                                        <td/>
+                                        <td/>
+                                        <td>
+                                            <strong>
+                                                <span>$&#160;</span>
+                                                <span t-esc="sum(line.price_total for line in doc.service_guide_line_ids)" t-options='{"widget": "float", "precision": 2}'/>
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <br/>
+                            <div>
+                                <table style="width: 100%;">
+                                    <tr>
+                                        <td>
+                                            <strong>Description: </strong>
+                                            <span t-field="doc.description"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

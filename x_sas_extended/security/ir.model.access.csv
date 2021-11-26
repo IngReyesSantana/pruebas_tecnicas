@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_service_guide,access.service.guide,model_service_guide,base.group_user,1,1,1,0
+access_service_guide_manager,service.guide.manager,model_service_guide,x_sas_extended.group_manager,1,1,1,1
+access_service_guide_line,access.service.guide.line,model_service_guide_line,base.group_user,1,1,1,0
+access_service_guide_line_manager,service.guide.line.manager,model_service_guide_line,x_sas_extended.group_manager,1,1,1,1
+access_service_category,access.service.category,model_service_category,base.group_user,1,1,1,0
+access_service_category_manager,service.category.manager,model_service_category,x_sas_extended.group_manager,1,1,1,1

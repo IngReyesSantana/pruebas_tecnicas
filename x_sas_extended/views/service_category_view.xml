@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_service_category_tree">
+            <field name="name">view.service.category.tree</field>
+            <field name="model">service.category</field>
+            <field name="arch" type="xml">
+                <tree string="Categories" editable="bottom">
+                    <field name="name"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model='ir.actions.act_window' id="action_service_category">
+            <field name="name">Service Category</field>
+            <field name="res_model">service.category</field>
+            <field name="view_mode">tree</field>
+            <field name="domain">['|',('active','=',False),('active','=',True)]</field>
+        </record>
+
+        <menuitem name="Categories" id="service_category_menu"
+                  parent="service_guide_base_menu"
+                  action="action_service_category"
+                  sequence="10"/>
+    </data>
+</odoo>

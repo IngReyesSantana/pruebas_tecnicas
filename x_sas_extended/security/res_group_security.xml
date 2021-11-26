@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="group_approved" model="res.groups">
+            <field name="name">Approved Service Guide</field>
+            <field name="category_id" ref="base.module_category_hidden" />
+        </record>
+
+        <record id="group_manager" model="res.groups">
+            <field name="name">Manager Service Guide</field>
+            <field name="category_id" ref="base.module_category_hidden" />
+        </record>
+    </data>
+</odoo>

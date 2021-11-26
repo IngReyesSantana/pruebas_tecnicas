@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_service_guide_graph">
+            <field name="name">view.service.guide.graph</field>
+            <field name="model">service.guide</field>
+            <field name="arch" type="xml">
+                <graph string="Guide" type="bar" stacked="1" sample="1">
+                    <field name="create_date" interval="month" type="row"/>
+                    <field name="guide_price" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record model='ir.actions.act_window' id="action_service_guide_report">
+            <field name="name">Service Guide</field>
+            <field name="res_model">service.guide</field>
+            <field name="view_mode">graph</field>
+        </record>
+
+        <menuitem name="Report" id="service_guide_report_menu" parent="service_guide_base_menu"
+                  action="action_service_guide_report" sequence="5" groups="x_sas_extended.group_manager"/>
+    </data>
+</odoo>
